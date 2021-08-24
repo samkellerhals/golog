@@ -17,10 +17,8 @@ package main
 
 import (
 	"github.com/samkellerhals/golog/cmd"
-	"github.com/samkellerhals/golog/utils"
 )
 
 func main() {
-	utils.CreateDb()
 	cmd.Execute()
 }

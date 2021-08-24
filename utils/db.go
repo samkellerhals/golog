@@ -8,12 +8,23 @@ import (
 
 const dbDir string = ".db"
 
-// Creates a new scribble database
-func CreateDb() *scribble.Driver {
-	driver, err := scribble.New(dbDir, &scribble.Options{})
+type JsonDB struct {
+	dir    string
+	driver *scribble.Driver
+}
+
+func (db *JsonDB) init(dir string) *JsonDB {
+	driver, err := scribble.New(dir, &scribble.Options{})
 
 	if err != nil {
 		fmt.Println(err)
 	}
-	return driver
+
+	db.dir = dir
+	db.driver = driver
+	return db
 }
+
+var dbPtr = &JsonDB{}
+
+var InitDB = dbPtr.init(dbDir)

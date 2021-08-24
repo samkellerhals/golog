@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/samkellerhals/golog/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -28,6 +29,7 @@ var addCmd = &cobra.Command{
 	//Long: ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
+		fmt.Println(utils.InitDB)
 	},
 }
 
