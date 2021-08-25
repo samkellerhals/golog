@@ -28,10 +28,19 @@ var addCmd = &cobra.Command{
 	Short: "Add a new activity.",
 	//Long: ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
-		fmt.Println(utils.InitDB)
+
+		if len(args) < 1 {
+			panic("add requires at least one argument.")
+		} else {
+			addToDb(args)
+		}
 	},
 }
+
+var (
+	ActivityType string
+	ActivityDate string
+)
 
 func init() {
 	rootCmd.AddCommand(addCmd)
@@ -44,5 +53,18 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	addCmd.Flags().StringVarP(&ActivityType, "type", "t", "", "set acticity type (*)")
+	addCmd.MarkFlagRequired("type")
+
+	addCmd.Flags().StringVarP(&ActivityDate, "date", "d", "", "set activity date (*)")
+	addCmd.MarkFlagRequired("date")
+}
+
+func addToDb(args []string) {
+
+	//fmt.Println(args, Collection, Resource)
+
+	if err := utils.InitDB.Driver.Write(ActivityType, ActivityDate, args); err != nil {
+		fmt.Printf("An error occurred during write: %v", err)
+	}
 }

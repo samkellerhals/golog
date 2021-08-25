@@ -9,8 +9,8 @@ import (
 const dbDir string = ".db"
 
 type JsonDB struct {
-	dir    string
-	driver *scribble.Driver
+	Directory string
+	Driver    *scribble.Driver
 }
 
 func (db *JsonDB) init(dir string) *JsonDB {
@@ -20,8 +20,8 @@ func (db *JsonDB) init(dir string) *JsonDB {
 		fmt.Println(err)
 	}
 
-	db.dir = dir
-	db.driver = driver
+	db.Directory = dir
+	db.Driver = driver
 	return db
 }
 
