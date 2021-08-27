@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/samkellerhals/golog/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +28,7 @@ var viewCmd = &cobra.Command{
 	Short: "View activities.",
 	Long:  `By default all activities are listed in chronological order, alternatively you can filter by field using the --filter-by option.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("view called")
+		viewRecords(args[0])
 	},
 }
 
@@ -43,4 +44,16 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// viewCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+// View all activities in the database
+func viewRecords(activityType string) {
+	records, err := utils.InitDB.Driver.ReadAll(activityType)
+	if err == nil {
+		fmt.Println(err)
+	}
+
+	for _, v := range records {
+		fmt.Println(string(v[:]))
+	}
 }

@@ -25,8 +25,7 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Add a new activity.",
-	//Long: ``,
+	Short: "Add a new activity to the activity database.",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) < 1 {
@@ -45,25 +44,15 @@ var (
 func init() {
 	rootCmd.AddCommand(addCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	addCmd.Flags().StringVarP(&ActivityType, "type", "t", "", "set acticity type (*)")
+	addCmd.Flags().StringVarP(&ActivityType, "type", "t", "", "set acticity type")
 	addCmd.MarkFlagRequired("type")
 
-	addCmd.Flags().StringVarP(&ActivityDate, "date", "d", "", "set activity date (*)")
+	addCmd.Flags().StringVarP(&ActivityDate, "date", "d", "", "set activity date")
 	addCmd.MarkFlagRequired("date")
 }
 
+// Writes a string to the database
 func addToDb(args []string) {
-
-	//fmt.Println(args, Collection, Resource)
-
 	if err := utils.InitDB.Driver.Write(ActivityType, ActivityDate, args); err != nil {
 		fmt.Printf("An error occurred during write: %v", err)
 	}
