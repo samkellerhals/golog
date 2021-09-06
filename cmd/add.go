@@ -43,12 +43,10 @@ var (
 
 func init() {
 	rootCmd.AddCommand(addCmd)
-
 	addCmd.Flags().StringVarP(&ActivityType, "type", "t", "", "set acticity type")
-	addCmd.MarkFlagRequired("type")
-
 	addCmd.Flags().StringVarP(&ActivityDate, "date", "d", "", "set activity date")
 	addCmd.MarkFlagRequired("date")
+	addCmd.MarkFlagRequired("type")
 }
 
 // Writes a string to the database

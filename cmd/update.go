@@ -44,3 +44,5 @@ func init() {
 	// is called directly, e.g.:
 	// updateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
+
+// TODO: implement updating of a specific date of a record

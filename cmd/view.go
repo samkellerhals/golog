@@ -28,32 +28,44 @@ var viewCmd = &cobra.Command{
 	Short: "View activities.",
 	Long:  `By default all activities are listed in chronological order, alternatively you can filter by field using the --filter-by option.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		viewRecords(args[0])
+
+		if len(args) < 1 {
+			fmt.Println("Pass at least one argument see golog view -h for more information.")
+		} else {
+			viewRecords(args[0])
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(viewCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// viewCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// viewCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-// View all activities in the database
-func viewRecords(activityType string) {
+// Prints all available activity types
+func printAllActivityTypes() {
+	utils.PrintDirectories(utils.InitDB.Directory)
+}
+
+// Prints all logged activities for a specific type
+func printActivities(activityType string) {
 	records, err := utils.InitDB.Driver.ReadAll(activityType)
-	if err == nil {
+	if err != nil {
 		fmt.Println(err)
 	}
 
 	for _, v := range records {
-		fmt.Println(string(v[:]))
+		fmt.Println(string(v))
 	}
+}
+
+// View activities
+func viewRecords(activityType string) {
+
+	if activityType == "all" {
+		printAllActivityTypes()
+	} else {
+		printActivities(activityType)
+	}
+
+	// TODO: implement read specific activity by date.
 }
