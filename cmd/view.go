@@ -66,6 +66,4 @@ func viewRecords(activityType string) {
 	} else {
 		printActivities(activityType)
 	}
-
-	// TODO: implement read specific activity by date.
 }

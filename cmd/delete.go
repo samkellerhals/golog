@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/samkellerhals/golog/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +28,10 @@ var deleteCmd = &cobra.Command{
 	Short: "Delete an activity.",
 	//Long: ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+
+		activityType := args[0]
+		date := args[1]
+		deleteItem(activityType, date)
 	},
 }
 
@@ -43,4 +47,11 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func deleteItem(activityType, date string) {
+	if err := utils.InitDB.Driver.Delete(activityType, date); err != nil {
+		fmt.Println("An error occured", err)
+	}
+	fmt.Println("Succesfully deleted item.")
 }
