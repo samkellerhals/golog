@@ -7,6 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var databaseRecord interface{}
+
 // viewCmd represents the view command
 var viewCmd = &cobra.Command{
 	Use:   "view [activity_type]",
@@ -34,11 +36,13 @@ func printAllActivityTypes() {
 
 // Prints all logged activities for a specific type
 func printByActivityType(activityType string) {
-	if records, err := utils.InitDB.Driver.ReadAll(activityType); err != nil {
-		fmt.Println(err)
-	} else {
-		for _, v := range records {
-			fmt.Println(string(v))
+
+	activityDates := utils.GetActivityDates(activityType)
+
+	for _, date := range activityDates {
+		if err := utils.InitDB.Driver.Read(activityType, date, &databaseRecord); err != nil {
+			fmt.Println(err)
 		}
+		utils.PrintActivity(date, databaseRecord)
 	}
 }

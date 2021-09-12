@@ -16,7 +16,7 @@ var addCmd = &cobra.Command{
 
 		activityType := args[0]
 		activityDate := args[1]
-		activityDescription := args[3]
+		activityDescription := args[2]
 
 		writeToDatabase(activityType, activityDate, activityDescription)
 	},
@@ -26,7 +26,30 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 }
 
-// Writes a string to the database
+/* TODO: add interactive commands which will ask for user input determined by configuration file yaml. By default args will
+	be filled with default nil value if not specified by user.
+
+E.g. ActivityTypes:
+		Hiking:
+			MountainName: string
+			Latitude: float64
+			Longitude: float64
+			Location: string
+			Route: string
+			Elevation: string
+			DurationHours: int8
+			Description: string
+		Climbing:
+			RouteName: string
+			Lat: string
+			Lon: string
+			Location: string
+			Elevation: string
+			ClimbingType: string
+			Description: string
+*/
+
+// Writes an activity to the database
 func writeToDatabase(activityType, activityDate, description string) {
 	if err := utils.InitDB.Driver.Write(activityType, activityDate, description); err != nil {
 		fmt.Printf("An error occurred during write: %v", err)
