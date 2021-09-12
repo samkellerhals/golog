@@ -9,15 +9,16 @@ import (
 
 // viewCmd represents the view command
 var viewCmd = &cobra.Command{
-	Use:   "view",
-	Short: "View activities.",
-	Long:  `By default all activities are listed in chronological order, alternatively you can filter by field using the --filter-by option.`,
+	Use:   "view [activity_type]",
+	Short: "View all activities by activity type.",
+	Long:  `By default all activity types are listed, to view activities by activity type specify the type.`,
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) < 1 {
-			fmt.Println("Pass at least one argument see golog view -h for more information.")
+			printAllActivityTypes()
 		} else {
-			viewRecords(args[0])
+			printByActivityType(args[0])
 		}
 	},
 }
@@ -32,23 +33,12 @@ func printAllActivityTypes() {
 }
 
 // Prints all logged activities for a specific type
-func printActivities(activityType string) {
-	records, err := utils.InitDB.Driver.ReadAll(activityType)
-	if err != nil {
+func printByActivityType(activityType string) {
+	if records, err := utils.InitDB.Driver.ReadAll(activityType); err != nil {
 		fmt.Println(err)
-	}
-
-	for _, v := range records {
-		fmt.Println(string(v))
-	}
-}
-
-// View activities
-func viewRecords(activityType string) {
-
-	if activityType == "all" {
-		printAllActivityTypes()
 	} else {
-		printActivities(activityType)
+		for _, v := range records {
+			fmt.Println(string(v))
+		}
 	}
 }
