@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var databaseRecord interface{}
+var databaseRecord map[string]interface{}
 
 // viewCmd represents the view command
 var viewCmd = &cobra.Command{

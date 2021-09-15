@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 var (
@@ -38,6 +40,11 @@ func GetActivityDates(activityType string) []string {
 	return activityDates
 }
 
-func PrintActivity(date string, activity interface{}) {
-	fmt.Printf("%v\n%v\n\n", date, activity)
+func PrintActivity(date string, activity map[string]interface{}) {
+	color.White("%v\n", date)
+
+	for k, v := range activity {
+		color.Blue("%v: ", k)
+		color.Yellow("%v\n", v)
+	}
 }
