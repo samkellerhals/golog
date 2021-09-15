@@ -9,10 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-var (
-	activityDates    []string
-	integerDateSlice []int
-)
+var activityDates []string
 
 func PrintDirectories(path string) {
 	folders, err := os.ReadDir(path)
